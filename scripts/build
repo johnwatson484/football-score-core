@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+docker-compose \
+  -f ../football-score-data/docker-compose.yaml \
+  -f ../football-score-data/docker-compose.override.yaml \
+  build $@
+
+docker-compose \
+  -f ../football-score-report/docker-compose.yaml \
+  -f ../football-score-report/docker-compose.override.yaml \
+  build $@

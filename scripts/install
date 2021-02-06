@@ -1,0 +1,24 @@
+#!/usr/bin/env sh
+
+# Clone repositories managed by this project into parent repo
+set -e
+projectRoot=$(a="/$0"; a=${a%/*}; a=${a:-.}; a=${a#/}/; cd "$a/.." || return; pwd)
+
+(
+  cd "${projectRoot}"
+  cd ..
+
+  printf "\nCloning repositories\n"
+
+  test -d football-score-data \
+    && >&2 echo "The 'football-score-data' directory already exists. Skipping." \
+    || git clone https://github.com/johnwatson484/football-score-data.git
+  test -d football-score-report \
+    && >&2 echo "The 'football-score-report' directory already exists. Skipping." \
+    || git clone https://github.com/johnwatson484/football-score-report.git
+    
+  printf "\nBuilding images\n"
+
+  scripts/build
+)
+

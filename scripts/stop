@@ -1,0 +1,15 @@
+docker-compose \
+  -f ../football-score-data/docker-compose.yaml \
+  -f ../football-score-data/docker-compose.override.yaml \
+  -f ../football-score-data/docker-compose.link.yaml \
+  down \
+  $@
+
+docker-compose \
+  -f ../football-score-report/docker-compose.yaml \
+  -f ../football-score-report/docker-compose.override.yaml \
+  -f ../football-score-report/docker-compose.link.yaml \
+  down \
+  $@
+
+docker network rm football-score

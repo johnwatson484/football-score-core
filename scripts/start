@@ -1,0 +1,24 @@
+#!/usr/bin/env sh
+if [ -z "$(docker network ls --filter name=^football-score$ --format={{.Name}})" ]; then
+  echo "Creating football-score Docker network"
+  docker network create football-score
+fi
+
+echo "Starting football-score-data"
+docker-compose \
+  -f ../football-score-data/docker-compose.yaml \
+  -f ../football-score-data/docker-compose.override.yaml \
+  -f ../football-score-data/docker-compose.link.yaml \
+  up \
+  --detach
+
+echo "Starting football-score-report"
+docker-compose \
+  -f ../football-score-report/docker-compose.yaml \
+  -f ../football-score-report/docker-compose.override.yaml \
+  -f ../football-score-report/docker-compose.link.yaml \
+  up \
+  --detach \
+  --scale kafka=0 \
+  --scale zookeeper=0 \
+  --scale kafdrop=0
